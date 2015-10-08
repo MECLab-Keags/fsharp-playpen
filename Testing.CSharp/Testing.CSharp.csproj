@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="HttpProxyTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FileSystemHelperTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\fsharp-playpen\fsharp-playpen.fsproj">

@@ -63,6 +63,8 @@
     <None Include="ActivePatterns.fsx" />
     <None Include="StrategyPattern.fsx" />
     <None Include="Immutability.fsx" />
+    <None Include="PatternMatching.fsx" />
+    <Compile Include="FileSystemHelpers.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

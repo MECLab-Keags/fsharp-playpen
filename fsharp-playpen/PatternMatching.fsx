@@ -47,26 +47,49 @@ MovingAverages [1.0; 2.0; 3.0; 3.5; 4.0; 4.8; 50.0; 25.0]
 
 
 (***  Exhaustive pattern matching as an error handling technique  ***)
-
 // define a "union" of two different alternatives (either Success or Failure), 
 //  using generics to dynamically type the success/failure return value.
 type Result<'success, 'error> =
     | Success of 'success
     | Failure of 'error
 
+// define a "union" of two different error alternatives that represents a file error:
+//  - FileNotFound of a string value
+//  - UnauthorizedAccess of a string and System.Exception
 type FileErrorReason =
     | FileNotFound of string
     | UnauthorizedAccess of string * System.Exception
 
-let execute action filePath =
+// Open's the specified file and executes the specifield action.
+let ExecuteOnFile action filePath =
     try
         use stream = new System.IO.StreamReader(filePath:string)
         let result = action stream
         stream.Close()
         Success(result)
     with
+        // Handle a FileNotFoundException and return a Failure result.
         | :? System.IO.FileNotFoundException as ex
             -> Failure(FileNotFound filePath)
+        // Handle a SecurityException and return an UnauthorizaedAccess Failure result (with the exception).
         | :? System.Security.SecurityException as  ex
             -> Failure(UnauthorizedAccess (filePath, ex))
 
+let MiddleLayer action filePath = 
+    let result = ExecuteOnFile action filePath
+    result
+
+let TopLayer filePath =
+    let response = MiddleLayer (fun stream -> stream.ReadLine()) filePath
+
+    match response with
+        | Success result -> 
+            printfn "file line is: '%s'" result
+        | Failure reason ->
+            match reason with
+                | FileNotFound message ->
+                    printfn "File not found at '%s'" message
+                | UnauthorizedAccess (file, ex) ->
+                    printfn "Unauthorized: '%s'" ex.Message
+
+TopLayer "C:\\temp"
