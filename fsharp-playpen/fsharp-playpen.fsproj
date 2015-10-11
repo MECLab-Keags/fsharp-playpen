@@ -65,6 +65,8 @@
     <None Include="Immutability.fsx" />
     <None Include="PatternMatching.fsx" />
     <Compile Include="FileSystemHelpers.fs" />
+    <None Include="ShoppingCart.fsx" />
+    <None Include="Concurrency_TraditionalAsync.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

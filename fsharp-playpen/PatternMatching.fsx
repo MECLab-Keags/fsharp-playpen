@@ -52,6 +52,7 @@ MovingAverages [1.0; 2.0; 3.0; 3.5; 4.0; 4.8; 50.0; 25.0]
 type Result<'success, 'error> =
     | Success of 'success
     | Failure of 'error
+    | Indetermine
 
 // define a "union" of two different error alternatives that represents a file error:
 //  - FileNotFound of a string value
@@ -91,5 +92,7 @@ let TopLayer filePath =
                     printfn "File not found at '%s'" message
                 | UnauthorizedAccess (file, ex) ->
                     printfn "Unauthorized: '%s'" ex.Message
+        | Indetermine ->
+            printfn "Unknown error"
 
 TopLayer "C:\\temp"
