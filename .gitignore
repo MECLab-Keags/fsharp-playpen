@@ -42,5 +42,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 /fsharp-playpen/.vs/fsharp-playpen/v14
-*/obj/Debug
+*/obj/
 */bin/
+*/*.suo
